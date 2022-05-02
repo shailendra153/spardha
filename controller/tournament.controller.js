@@ -1,0 +1,1 @@
+const Tournament = require('../model/tournament.model');
