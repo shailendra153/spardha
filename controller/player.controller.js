@@ -35,28 +35,20 @@ exports.playerSignup = async(request, response, next) => {
     console.log(request.body);
     const password = encrypter.encrypt(request.body.password);
 
-    console.log(password)
-    let image = ""
-    await cloudinary.v2.uploader.upload(request.file.path)
-        .then(result => {
-            image = result.url;
-        })
-        .catch(err => {
-            console.log(err)
-        })
+
     const errors = validationResult(request);
     if (!errors.isEmpty())
         return response.status(400).json({ errors: errors.array() });
     const player = new Player();
     player.name = request.body.name;
-    player.age = request.body.age;
-    player.address = request.body.address;
+    player.age = 18;
+    player.address = "";
     player.mobile = request.body.mobile;
     player.email = request.body.email;
     player.password = password;
     player.playerType = request.body.playerType;
-    player.image = image;
-    player.description = request.body.description;
+    player.image = "";
+    player.description = "";
     player.save()
         .then(result => {
             console.log(result);
