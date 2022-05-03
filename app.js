@@ -26,3 +26,5 @@ mongoose.connect('mongodb+srv://root:root@cluster0.gffjq.mongodb.net/pratisparda
     }).catch(err => {
         console.log(err);
     })
+
+    //..................................
