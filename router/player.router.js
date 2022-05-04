@@ -11,13 +11,13 @@ const upload = multer({
     }
 
 })
-
-
-
 router.post('/signin', playerController.playerSignin);
 router.post('/signup', upload.single('image'), playerController.playerSignup);
 router.post('/update-profile', playerController.updateProfile);
 router.get('/view-profile/:playerId', playerController.viewProfile)
+router.get('/signin-with-google', playerController.signinWithGoogle)
+router.get('/view-tournaments', playerController.viewTournaments)
+
 
 
 module.exports = router;
