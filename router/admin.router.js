@@ -4,6 +4,10 @@ const router = express.Router();
 
 router.post('/signin', adminController.adminSignin);
 router.post('/signup', adminController.adminSignup);
+router.post('/signup-with-google', adminController.googleSignIn);
+router.post('/viewProfile', adminController.viewProfile);
+router.post('/update-profile', adminController.viewProfile);
+router.post('/view-tournament', adminController.viewTournament);
 
 
 

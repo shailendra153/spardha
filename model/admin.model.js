@@ -3,12 +3,12 @@ const { Schema } = require('mongoose');
 const adminSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        // required: true,
         trim: true
     },
     mobile: {
         type: Number,
-        required: true
+        // required: true
     },
     email: {
         type: String,
@@ -21,7 +21,7 @@ const adminSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
+        // required: true
     },
 });
 module.exports = mongoose.model("admins", adminSchema);
