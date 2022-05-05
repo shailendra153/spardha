@@ -23,7 +23,7 @@ const organiserSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    tournament: [{
+    tournament: [{ 
         type: Schema.Types.ObjectId,
         ref: 'tournaments'
     }],

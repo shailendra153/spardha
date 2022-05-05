@@ -46,7 +46,14 @@ const playerSchema = new mongoose.Schema({
     team: [{
         teamName: String,
         Status: String,
-    }]
+    }],
+    requestedTeam:String,
+    requestStatus:String,
+    requestedTeamId:String,
+    initialPrice:{
+        type:Number,
+        required:true
+    }
 
 
 });

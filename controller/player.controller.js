@@ -1,10 +1,12 @@
 const Player = require('../model/player.model');
+const Team=require('../model/team.model');
 const { validationResult } = require('express-validator');
 const Encrypter = require('../encrypter/encrupter');
 const encrypter = new Encrypter('pratisparda');
 const cloudinary = require('cloudinary');
 const { route } = require('../router/admin.router');
 const jwt = require('jsonwebtoken');
+const transporter = require('../mail/mail');
 cloudinary.config({
     cloud_name: "shailendra153",
     api_key: "934837375542371",
@@ -44,27 +46,46 @@ exports.playerSignin = (request, response, next) => {
         })
 };
 exports.playerSignup = async(request, response, next) => {
+    
     console.log(request.body);
     const password = encrypter.encrypt(request.body.password);
 
-
+   let message='Congratulation Dear ' +request.body.name+" ,your Signaup proccess is complete Your email id is:-  "+request.body.email+" and your password is:- "+request.body.password;
     const errors = validationResult(request);
     if (!errors.isEmpty())
         return response.status(400).json({ errors: errors.array() });
-    const player = new Player();
+        const mailData = {
+            from: 'kushwahshailendra732@gmail.com',
+            to: request.body.email,
+            subject: "Sign Up Success",
+            text: message
+    
+        };    
+        const player = new Player();
     player.name = request.body.name;
     player.age = 18;
-    player.address = "";
+    player.address = " ";
     player.mobile = request.body.mobile;
     player.email = request.body.email;
     player.password = password;
     player.playerType = request.body.playerType;
-    player.image = "";
-    player.description = "";
+    player.image = " ";
+    player.description = " ";
+    player.requestedTeam=" ";
+    player.requestedTeamId=" ";
+    player.requestStatus=" ";
     player.save()
         .then(result => {
             console.log(result);
-            return response.status(201).json(result);
+            transporter.sendMail(mailData, function(err, info) {
+                if (err) {
+                    console.log(err)
+                    return response.status(500).json({ message: "Internal Server Error" });
+        
+                } else
+                    return response.status(201).json({ message: "sucesss",result:result })
+            });
+        
         })
         .catch(err => {
             console.log(err);
@@ -192,4 +213,69 @@ exports.viewTournaments= (request, response, next) => {
         console.log(err);
         return response.status(500).json({err:err},{message:"internal server error"})
     })
+};
+exports.requestForJoin=(request,response,next)=>{
+console.log(request.params);
+const playerId=request.params.playerId;
+const teamName=request.params.teamName;
+Player.updateOne({_id:playerId},
+    {$set:{
+        requestedTeam:teamName,
+        requestedTeamId:request.params.teamId,
+        requestStatus:"pending"
+}})
+.then(result => {
+
+    if (result.modifiedCount)
+        return response.status(202).json({ message: "Success" });
+    else
+        return response.status(404).json({ message: "Not Found" })
+})
+.catch(err => {
+        console.log(err);
+        return response.status(500).json({ message: "Internal Server Error" })
+    }
+
+)
+};
+exports.acceptRequest=async(request,response,next)=>{
+   console.log(request.params);
+   const playerId=request.params.playerId;
+   Player.updateOne({_id:playerId},
+    {$set:{
+    
+        requestStatus:"accepted"
+}})
+.then(async result => {
+    console.log(result);
+    const player=await Player.findOne({_id:playerId});
+    const teamId=player.requestedTeamId;
+    const team =await Team.findOne({_id:teamId});
+    if(!team)
+    return response.status(404).json({message:"Team Not Found"});
+    team.players.push(playerId)
+    team.save()
+    .then(result => {
+          console.log(result);
+         player.team.push(teamId)
+         player.save()
+         .then(result => {
+            return response.status(201).json({message:"success"});
+        })
+        .catch(err => {
+            return response.status(500).json({ message: "Internal Server Error" });
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        return response.status(500).json({ message: "Internal Server Error" });
+    });
+
+})
+.catch(err => {
+        console.log(err);
+        return response.status(500).json({ message: "Internal Server Error" })
+    }
+
+)
 };

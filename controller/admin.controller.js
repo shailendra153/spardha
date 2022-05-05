@@ -1,6 +1,7 @@
 const { response } = require('express');
 const { request } = require('express');
 const Admin = require('../model/admin.model');
+const Player=require('../model/player.model')
 const tournament=require('../model/tournament.model')
 const Encrypter = require('../encrypter/encrupter');
 const jwt = require('jsonwebtoken');
@@ -98,6 +99,17 @@ exports.viewProfile = (request, response, next) => {
 exports.viewTournament = (request, response, next) => {
     console.log(request.body);
     tournament.find().then(result=>{
+        console.log(result);
+        return response.status(201).json(result)
+    }).catch(err=>{
+        console.log(err);
+        return response.status(500).json({err:err},{message:"internal server error"})
+    })
+};
+
+exports.viewAllPlayers = (request, response, next) => {
+    console.log(request.body);
+    Player.find().then(result=>{
         console.log(result);
         return response.status(201).json(result)
     }).catch(err=>{

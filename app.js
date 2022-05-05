@@ -19,7 +19,7 @@ mongoose.connect(  "mongodb+srv://lucky:1234@cluster1.bvxkm.mongodb.net/Pratispa
         app.use('/team', teamRouter);
         app.use('/organiser', organiserRouter);
         app.use('/tournament', tournamentRouter);
-        app.use('/player',playerRouter);
+        app.use(playerRouter);
         app.listen(process.env.PORT || 3000, () => {
             console.log("Server Is Running")
             console.log("successfully connected to database....")
