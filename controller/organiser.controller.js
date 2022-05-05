@@ -4,12 +4,27 @@ const tournament=require('../model/tournament.model')
 const { body,validationResult } = require('express-validator');
 const Encrypter = require('../encrypter/encrupter');
 const encrypter = new Encrypter('pratisparda');
+const jwt = require('jsonwebtoken');
+
+const transporter = require('../mail/mail');
 
 const Organiser = require('../model/organiser.model');
 const res = require('express/lib/response');
 
 exports.organiserSignup = (request, response, next) => {
     console.log(request.body);
+    const errors = validationResult(request);
+
+    if (!errors.isEmpty())
+    return response.status(400).json({ errors: errors.array() });
+    let message='Congratulation Dear ' +request.body.name+" ,your Signaup proccess is complete Your email id is:-  "+request.body.email+" and your password is:- "+request.body.password;
+    const mailData = {
+        from: 'kushwahshailendra732@gmail.com',
+        to: request.body.email,
+        subject: "Sign Up Success",
+        text: message
+
+    };   
     const organiser = new Organiser();
     organiser.name = request.body.name;
     organiser.email = request.body.email;
@@ -17,10 +32,18 @@ exports.organiserSignup = (request, response, next) => {
     organiser.mobile = request.body.mobile;
     organiser.alternateNumber = request.body.alternateNumber;
     organiser.save()
-        .then(result => {
-            console.log(result);
-            return response.status(201).json(result);
-        })
+    .then(result => {
+        console.log(result);
+        transporter.sendMail(mailData, function(err, info) {
+            if (err) {
+                console.log(err)
+                return response.status(500).json({ message: "Internal Server Error" });
+    
+            } else
+                return response.status(201).json({ message: "sucesss",result:result })
+        });
+    
+    })
         .catch(err => {
             console.log(err);
             return response.status(500).json({ message: "Internal Server Error" });

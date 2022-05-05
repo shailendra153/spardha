@@ -26,14 +26,6 @@
         type: String,
         required: true
     },
-    //  tournamentTime: {
-    //      type: String,
-    //      required: true
-    //  },
-    //  tournamentStatus: {
-    //      type: String, 
-    //      required: true
-    //  },
      tournamentFees: {
          type: Number,
          required: true
