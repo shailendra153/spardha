@@ -52,9 +52,8 @@ const playerSchema = new mongoose.Schema({
     requestedTeamId:String,
     initialPrice:{
         type:Number,
-        required:true
+        required:true,
+        default:0
     }
-
-
 });
 module.exports = mongoose.model("players", playerSchema);
