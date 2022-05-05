@@ -107,13 +107,3 @@ exports.viewTournament = (request, response, next) => {
     })
 };
 
-exports.viewAllPlayers = (request, response, next) => {
-    console.log(request.body);
-    Player.find().then(result=>{
-        console.log(result);
-        return response.status(201).json(result)
-    }).catch(err=>{
-        console.log(err);
-        return response.status(500).json({err:err},{message:"internal server error"})
-    })
-};

@@ -92,7 +92,8 @@ exports.playerSignup = async(request, response, next) => {
             return response.status(500).json({ message: "Internal Server Error" });
         })
 };
-exports.updateProfile = async (request, response, next) => {
+exports.updateProfile =  async(request, response, next) => {
+    console.log(request.body)
     //code here
     let image="";
     let address="";
@@ -115,14 +116,10 @@ exports.updateProfile = async (request, response, next) => {
             })
     }
     const name=request.body.name;
-    // player.age = 18;?
-    // player.address = "";
      const mobile = request.body.mobile;
     const email = request.body.email;
-    // player.password = password;
     const playerType = request.body.playerType;
-    // player.image = "";
-    // player.description = "";
+    
     if(request.body.age)
         age=request.body.age
 
@@ -278,4 +275,36 @@ exports.acceptRequest=async(request,response,next)=>{
     }
 
 )
+};
+exports.rejectRequest=(request,response,next)=>{
+    Player.updateOne({_id:playerId},
+        {$set:{
+            requestedTeam:" ",
+            requestedTeamId:" ",
+            requestStatus:" "
+    }})
+    .then(result => {
+    
+        if (result.modifiedCount)
+            return response.status(202).json({ message: "Success" });
+        else
+            return response.status(404).json({ message: "Not Found" })
+    })
+    .catch(err => {
+            console.log(err);
+            return response.status(500).json({ message: "Internal Server Error" })
+        }
+    
+    )
+
+};
+exports.viewAllPlayers = (request, response, next) => {
+    console.log(request.body);
+    Player.find().then(result=>{
+        console.log(result);
+        return response.status(201).json(result)
+    }).catch(err=>{
+        console.log(err);
+        return response.status(500).json({err:err},{message:"internal server error"})
+    })
 };
