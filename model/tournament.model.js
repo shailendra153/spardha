@@ -35,7 +35,5 @@
          ref: 'teams'
      }],
 
-
-
  });
  module.exports = mongoose.model("tournaments", tournamentSchema);

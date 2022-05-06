@@ -95,7 +95,6 @@ exports.viewProfile = (request, response, next) => {
         })
 };
 
-
 exports.viewTournament = (request, response, next) => {
     console.log(request.body);
     tournament.find().then(result=>{
