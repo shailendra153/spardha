@@ -44,16 +44,21 @@ const playerSchema = new mongoose.Schema({
         ref: 'tournaments'
     }],
     team: [{
-        teamName: String,
-        Status: String,
+        type: Schema.Types.ObjectId,
+        ref: 'teams'
     }],
-    requestedTeam:String,
-    requestStatus:String,
-    requestedTeamId:String,
-    initialPrice:{
-        type:Number,
-        required:true,
-        default:0
+    requestedTeam: [{
+
+        type: Schema.Types.ObjectId,
+        ref: 'teams'
+
+    }],
+    joinStatus: String,
+
+    initialPrice: {
+        type: Number,
+        required: true,
+        default: 0
     }
 });
 module.exports = mongoose.model("players", playerSchema);
