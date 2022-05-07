@@ -15,7 +15,7 @@ router.post('/signin', playerController.playerSignin);
 router.post('/signup', upload.single('image'), playerController.playerSignup);
 router.post('/update-profile', upload.single("image"), playerController.updateProfile);
 router.get('/view-profile/:playerId', playerController.viewProfile);
-router.get('/signin-with-google', playerController.signinWithGoogle);
+router.post('/signin-with-google', playerController.signinWithGoogle);
 router.get('/request-player/:playerId/:teamId', playerController.requestForJoin);
 router.get('/accept-request/:playerId/:teamId', playerController.acceptRequest);
 router.get('/reject-request/:playerId/:teamId', playerController.rejectRequest);

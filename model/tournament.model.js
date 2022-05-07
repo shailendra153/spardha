@@ -22,13 +22,14 @@
          type: String,
          required: true
      },
-     tournamentEndDate: {
-        type: String,
-        required: true
-    },
+     tpoutournament
      tournamentFees: {
          type: Number,
          required: true
+     },
+     tournamentRules: {
+         type: Stirng
+
      },
      tournamentTeams: [{
          type: Schema.Types.ObjectId,

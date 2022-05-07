@@ -4,7 +4,7 @@ const Team = require('../model/team.model');
 
 exports.createTeam = (request, response, next) => {
     console.log(request.body);
-    console.log("Success");
+
     const team = new Team();
     team.name = request.body.name;
     team.ownerId = request.body.ownerId;
