@@ -96,7 +96,16 @@ exports.playerSignup = async(request, response, next) => {
     player.save()
         .then(result => {
             console.log(result);
-            message="click this link for verify your account:-"+"https://spardhaa.herokuapp.com/verify/"+encrypter.encrypt(result._id);
+            let id=result._id.toString();
+            console.log(id)
+            message="click this link for verify your account:-"+"https://spardhaa.herokuapp.com/verify/"+encrypter.encrypt(id);
+            const mailData = {
+                from: 'kushwahshailendra732@gmail.com',
+                to: request.body.email,
+                subject: "Sign Up Success",
+                text: message
+        
+            };
             transporter.sendMail(mailData, function(err, info) {
                 if (err) {
                     console.log(err)
