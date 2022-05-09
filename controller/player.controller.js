@@ -30,7 +30,7 @@ exports.verifyAccount=(request,response,next)=>{
         if (result.modifiedCount)
             return response.status(202).json({ message: "Success" });
         else
-            return response.status(404).json({ message: "Not Found" })
+            return response.status(404).json({ message: "Already Verified" })
     })
     .catch(err => {
             console.log(err);
@@ -44,7 +44,7 @@ exports.verifyAccount=(request,response,next)=>{
 
 exports.playerSignin = (request, response, next) => {
     console.log(request.body);
-    console.log("htlo")
+
     Player.findOne({ email: request.body.email })
         .then(result => {
             console.log(result);
