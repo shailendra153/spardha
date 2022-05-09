@@ -25,12 +25,25 @@ exports.verifyAccount=(request,response,next)=>{
             active:true
         }
     })
-    .then(result => {
+    .then(async result => {
+        let player=await Player.findOne({_id:playerId})
+message="Dear "+ player.name+" your verification has been completed Successfully.your Email is  "+player.email+" and your password is "+encrypter.dencrypt(player.pasword)+". Now you can procceed ahead byu clicking this link:-http://localhost:4200"
+        console.log(message)
+       const mailData = {
+           from: 'kushwahshailendra732@gmail.com',
+           to: player.email,
+           subject: "Verification Success",
+           text: message
+   
+       };
+       transporter.sendMail(mailData, function(err, info) {
+           if (err) {
+               console.log(err)
+               return response.status(500).json({ message: "Internal Server Error" });
 
-        if (result.modifiedCount)
-            return response.status(202).json({ message: "Success" });
-        else
-            return response.status(404).json({ message: "Already Verified" })
+           } else
+               return response.status(201).json({ message: "sucesss", result: result })
+       });
     })
     .catch(err => {
             console.log(err);
@@ -50,7 +63,11 @@ exports.playerSignin = (request, response, next) => {
             console.log(result);
             if (!result)
                 return response.status(401).json({ message: "User Not Found" });
-            let password = encrypter.dencrypt(result.password);
+
+           
+                 let password = encrypter.dencrypt(result.password);
+                 console.log(password);
+                 console.log(request.body.password)
             if (password == request.body.password) {
                 console.log(result);
                 if(result.active==false)
