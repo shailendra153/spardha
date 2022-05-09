@@ -26,8 +26,10 @@ exports.verifyAccount=(request,response,next)=>{
         }
     })
     .then(async result => {
+        
         let player=await Player.findOne({_id:playerId})
-message="Dear "+ player.name+" your verification has been completed Successfully.your Email is  "+player.email+" and your password is "+encrypter.dencrypt(player.pasword)+". Now you can procceed ahead byu clicking this link:-http://localhost:4200"
+        console.log(player)
+let message="Dear "+ player.name+" your verification has been completed Successfully.your Email is  "+player.email+" and your password is "+encrypter.dencrypt(player.password)+". Now you can procceed ahead byu clicking this link:-http://localhost:4200"
         console.log(message)
        const mailData = {
            from: 'kushwahshailendra732@gmail.com',
@@ -39,7 +41,7 @@ message="Dear "+ player.name+" your verification has been completed Successfully
        transporter.sendMail(mailData, function(err, info) {
            if (err) {
                console.log(err)
-               return response.status(500).json({ message: "Internal Server Error" });
+               return response.status(500).json({ message: "Internal Server Error1" });
 
            } else
                return response.status(201).json({ message: "sucesss", result: result })
@@ -47,7 +49,7 @@ message="Dear "+ player.name+" your verification has been completed Successfully
     })
     .catch(err => {
             console.log(err);
-            return response.status(500).json({ message: "Internal Server Error" })
+            return response.status(500).json({ message: "Internal Server Error2" })
         }
 
     )
