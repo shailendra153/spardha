@@ -82,6 +82,7 @@ exports.playerSignup = async(request, response, next) => {
     const errors = validationResult(request);
     if (!errors.isEmpty())
         return response.status(400).json({ errors: errors.array() });
+        const player=new Player();
    
     player.name = request.body.name;
     player.age = 18;
