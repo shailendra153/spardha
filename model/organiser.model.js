@@ -27,5 +27,9 @@ const organiserSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'tournaments'
     }],
+    active:{
+        type:Boolean,
+        default:false
+    }
 });
 module.exports = mongoose.model("orgainisers", organiserSchema);
