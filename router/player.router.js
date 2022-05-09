@@ -13,6 +13,7 @@ const upload = multer({
 })
 router.post('/signin', playerController.playerSignin);
 router.post('/signup', upload.single('image'), playerController.playerSignup);
+router.get('/verify/:playerId',playerController.verifyAccount)
 router.post('/update-profile', upload.single("image"), playerController.updateProfile);
 router.get('/view-profile/:playerId', playerController.viewProfile);
 router.post('/signin-with-google', playerController.signinWithGoogle);

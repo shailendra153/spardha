@@ -68,6 +68,10 @@ const playerSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    active:{
+        type:Boolean,
+        default:false
     }
 });
 module.exports = mongoose.model("players", playerSchema);

@@ -12,7 +12,34 @@ cloudinary.config({
     api_key: "934837375542371",
     api_secret: "zHeIVGAQP0FDhsmIV-a38EYA24w"
 });
-const tournament = require('../model/tournament.model')
+const tournament = require('../model/tournament.model');
+const { response } = require('express');
+
+exports.verifyAccount=(resquest,response,next)=>{
+    console.log(this.request.params);
+    let playerId=response.params.playerId;
+    playerId=encrypter.dencrypt(playerId);
+    Player.updateOne({_id:playerId},{
+        $set:{
+            active:true
+        }
+    })
+    .then(result => {
+
+        if (result.modifiedCount)
+            return response.status(202).json({ message: "Success" });
+        else
+            return response.status(404).json({ message: "Not Found" })
+    })
+    .catch(err => {
+            console.log(err);
+            return response.status(500).json({ message: "Internal Server Error" })
+        }
+
+    )
+
+
+}
 
 exports.playerSignin = (request, response, next) => {
     console.log(request.body);
@@ -25,6 +52,8 @@ exports.playerSignin = (request, response, next) => {
             let password = encrypter.dencrypt(result.password);
             if (password == request.body.password) {
                 console.log(result);
+                if(result.active==false)
+                return response.status(200).json({message:"please verify your account"});
                 console.log('login Successful');
                 let payload = { subject: result._id };
                 let token = jwt.sign(payload, 'adkgshubhambahutsamjhhdarhkabhigaltinhikrteckjbgjkab');
@@ -49,18 +78,11 @@ exports.playerSignup = async(request, response, next) => {
     console.log(request.body);
     const password = encrypter.encrypt(request.body.password);
 
-    let message = 'Congratulation Dear ' + request.body.name + " ,your Signaup proccess is complete Your email id is:-  " + request.body.email + " and your password is:- " + request.body.password;
+    let message = ""
     const errors = validationResult(request);
     if (!errors.isEmpty())
         return response.status(400).json({ errors: errors.array() });
-    const mailData = {
-        from: 'kushwahshailendra732@gmail.com',
-        to: request.body.email,
-        subject: "Sign Up Success",
-        text: message
-
-    };
-    const player = new Player();
+   
     player.name = request.body.name;
     player.age = 18;
     player.address = " ";
@@ -73,6 +95,7 @@ exports.playerSignup = async(request, response, next) => {
     player.save()
         .then(result => {
             console.log(result);
+            message="click this link for verify your account:-"+"https://spardhaa.herokuapp.com/verify/"+encrypter.encrypt(result._id);
             transporter.sendMail(mailData, function(err, info) {
                 if (err) {
                     console.log(err)
