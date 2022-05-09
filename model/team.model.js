@@ -12,9 +12,19 @@ const teamSchema = new mongoose.Schema({
         required: true,
         ref: 'players'
     },
-    players: [{
-        type: Schema.Types.ObjectId,
-        ref: 'players'
+    teamDetail: [{
+        tournamentId: {
+            type: Schema.Types.ObjectId,
+            ref: 'tournaments'
+        },
+        players: [{
+
+                type: Schema.Types.ObjectId,
+                ref: 'players'
+            }
+
+        ]
+
     }],
     personalPlayer: {
         type: Number,

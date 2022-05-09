@@ -44,16 +44,25 @@ const playerSchema = new mongoose.Schema({
         ref: 'tournaments'
     }],
     team: [{
-        type: Schema.Types.ObjectId,
-        ref: 'teams'
+        tournamentId: {
+            type: Schema.Types.ObjectId,
+            ref: 'tournaments'
+        },
+        teamId: {
+            type: Schema.Types.ObjectId,
+            ref: 'teams'
+        },
     }],
-    requestedTeam: [{
-
-        type: Schema.Types.ObjectId,
-        ref: 'teams'
-
+    request: [{
+        tournamentId: {
+            type: Schema.Types.ObjectId,
+            ref: 'tournaments'
+        },
+        teamId: {
+            type: Schema.Types.ObjectId,
+            ref: 'teams'
+        }
     }],
-    joinStatus: String,
 
     initialPrice: {
         type: Number,

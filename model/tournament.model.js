@@ -22,13 +22,24 @@
          type: String,
          required: true
      },
-     tpoutournament
+     tournamentApplyDate: {
+         type: String,
+         required: true
+     },
+     tournamentEndDate: {
+         type: String,
+         required: true
+     },
      tournamentFees: {
          type: Number,
          required: true
      },
+     prizeAmount: {
+         type: Number,
+         required: true
+     },
      tournamentRules: {
-         type: Stirng
+         type: String
 
      },
      tournamentTeams: [{

@@ -13,7 +13,7 @@ const teamRouter = require('./router/team.router');
 const organiserRouter = require('./router/organiser.router');
 const tournamentRouter = require('./router/tournament.router');
 const mongoose = require('mongoose');
-mongoose.connect(  "mongodb+srv://lucky:1234@cluster1.bvxkm.mongodb.net/Pratispardha?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://root:root@cluster0.gffjq.mongodb.net/Spardha?retryWrites=true&w=majority")
     .then(() => {
         app.use('/admin', adminRouter);
         app.use('/team', teamRouter);
@@ -28,5 +28,4 @@ mongoose.connect(  "mongodb+srv://lucky:1234@cluster1.bvxkm.mongodb.net/Pratispa
         console.log(err);
     })
 
-    //.........................SHELU DATABASE COnnectivity.........mongodb+srv://root:root@cluster0.gffjq.mongodb.net/pratisparda?retryWrites=true&w=majority
-    
+//.........................SHELU DATABASE COnnectivity.........mongodb+srv://root:root@cluster0.gffjq.mongodb.net/pratisparda?retryWrites=true&w=majority

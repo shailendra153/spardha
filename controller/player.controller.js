@@ -16,6 +16,7 @@ const tournament = require('../model/tournament.model')
 
 exports.playerSignin = (request, response, next) => {
     console.log(request.body);
+    console.log("htlo")
     Player.findOne({ email: request.body.email })
         .then(result => {
             console.log(result);
@@ -69,7 +70,6 @@ exports.playerSignup = async(request, response, next) => {
     player.playerType = request.body.playerType;
     player.image = " ";
     player.description = " ";
-    player.joinStatus = "notJoin";
     player.save()
         .then(result => {
             console.log(result);
@@ -152,7 +152,7 @@ exports.updateProfile = async(request, response, next) => {
 };
 exports.viewProfile = (request, response, next) => {
     console.log(request.body)
-    Player.findOne({ _id: request.params.playerId })
+    Player.findOne({ _id: request.params.playerId }).populate('request.tournamentId').populate('request.teamId').exec()
         .then(result => {
             console.log(result);
             if (!result)
@@ -197,17 +197,21 @@ exports.signinWithGoogle = (request, response, next) => {
 exports.requestForJoin = (request, response, next) => {
     console.log(request.params);
     const playerId = request.params.playerId;
+    const tournamentId = request.params.tournamentId;
+    const teamId = request.params.teamId;
     Player.updateOne({ _id: playerId }, {
             $push: {
-                requestedTeam: request.params.teamId
+                request: {
+                    tournamentId: tournamentId,
+                    teamId: teamId
+
+                }
             }
         })
         .then(result => {
+            console.log(result)
 
-            if (result.modifiedCount)
-                return response.status(202).json({ message: "Success" });
-            else
-                return response.status(404).json({ message: "Not Found" })
+            return response.status(202).json({ message: "Success" });
         })
         .catch(err => {
                 console.log(err);
@@ -219,38 +223,31 @@ exports.requestForJoin = (request, response, next) => {
 exports.acceptRequest = async(request, response, next) => {
     console.log(request.params);
     const playerId = request.params.playerId;
+    const tournamentId = request.params.tournamentId;
+    const teamId = request.params.teamId;
     Player.updateOne({ _id: playerId }, {
-            $set: {
+        $pullAll: {
+            request: [
+                { _id: request.params.resquestId }
+            ]
+        }
+    })
+    .then(result => {
+        console.log(result);
+        
+    Player.updateOne({ _id: playerId }, {
+            $push: {
+                team: {
+                    tournamentId: tournamentId,
+                    teamId: teamId
 
-                joinStatus: "join"
+                }
             }
         })
-        .then(async result => {
-            console.log(result);
+        .then(result => {
+            console.log(result)
 
-            const team = await Team.findOne({
-                _id: request.params.teamId
-            });
-            if (!team)
-                return response.status(404).json({ message: "Team Not Found" });
-            team.players.push(playerId)
-            team.save()
-                .then(result => {
-                    console.log(result);
-                    player.team.push(request.params.teamId)
-                    player.save()
-                        .then(result => {
-                            return response.status(201).json({ message: "success" });
-                        })
-                        .catch(err => {
-                            return response.status(500).json({ message: "Internal Server Error" });
-                        });
-                })
-                .catch(err => {
-                    console.log(err);
-                    return response.status(500).json({ message: "Internal Server Error" });
-                });
-
+            return response.status(202).json({ message: "Success" });
         })
         .catch(err => {
                 console.log(err);
@@ -258,13 +255,22 @@ exports.acceptRequest = async(request, response, next) => {
             }
 
         )
+
+
+    })
+    .catch(err => {
+            console.log(err);
+            return response.status(500).json({ message: "Internal Server Error" })
+        }
+
+    )
 };
 exports.rejectRequest = (request, response, next) => {
 
     Player.updateOne({ _id: request.params.playerId }, {
             $pullAll: {
-                requestedTeam: [
-                    { _id: request.params.teamId }
+                request: [
+                    { _id: request.params.resquestId }
                 ]
             }
         })
