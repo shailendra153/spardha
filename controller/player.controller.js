@@ -15,9 +15,10 @@ cloudinary.config({
 const tournament = require('../model/tournament.model');
 const { response } = require('express');
 
-exports.verifyAccount=(resquest,response,next)=>{
+exports.verifyAccount=(request,response,next)=>{
     console.log(request.params);
-    let playerId=response.params.playerId;
+    
+    let playerId=request.params.playerId;
     playerId=encrypter.dencrypt(playerId);
     Player.updateOne({_id:playerId},{
         $set:{
@@ -99,6 +100,7 @@ exports.playerSignup = async(request, response, next) => {
             let id=result._id.toString();
             console.log(id)
             message="click this link for verify your account:-"+"https://spardhaa.herokuapp.com/verify/"+encrypter.encrypt(id);
+             console.log(message)
             const mailData = {
                 from: 'kushwahshailendra732@gmail.com',
                 to: request.body.email,
