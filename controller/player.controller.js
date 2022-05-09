@@ -16,7 +16,7 @@ const tournament = require('../model/tournament.model');
 const { response } = require('express');
 
 exports.verifyAccount=(resquest,response,next)=>{
-    console.log(this.request.params);
+    console.log(request.params);
     let playerId=response.params.playerId;
     playerId=encrypter.dencrypt(playerId);
     Player.updateOne({_id:playerId},{
