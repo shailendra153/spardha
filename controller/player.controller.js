@@ -275,65 +275,101 @@ exports.requestForJoin = (request, response, next) => {
         )
 };
 exports.acceptRequest = async(request, response, next) => {
+    
     console.log(request.params);
     const playerId = request.params.playerId;
     const tournamentId = request.params.tournamentId;
     const teamId = request.params.teamId;
-    Player.updateOne({ _id: playerId }, {
-        $pullAll: {
-            request: [
-                { _id: request.params.resquestId }
-            ]
-        }
-    })
-    .then(result => {
-        console.log(result);
-        
-    Player.updateOne({ _id: playerId }, {
-            $push: {
-                team: {
-                    tournamentId: tournamentId,
-                    teamId: teamId
-
-                }
-            }
-        })
+    
+    await Player.findOneAndUpdate(
+        { _id: request.params.playerId },
+        { $pull: { request: { _id: request.params.resquestId } } },
+        { safe: true, multi: false }
+      )
         .then(result => {
-            console.log(result)
 
-            return response.status(202).json({ message: "Success" });
+             console.log(result)
+             Player.updateOne({ _id: playerId }, {
+                $push: {
+                    team: {
+                        tournamentId: tournamentId,
+                        teamId: teamId
+    
+                    }
+                }
+            })
+            .then(async result => {
+                console.log(result);
+                 let team=await Team.findOne({_id:teamId});
+            
+             //teamDetail
+             console.log(team.teamDetail.length)
+             if(team.teamDetail.length==0){
+                 console.log("1....................................")
+                team.teamDetail.push({tournamentId:tournamentId,players:playerId})
+                
+             }else{
+                console.log("2.........")
+                 for(i=0;i<team.teamDetail.length;i++){
+                     var flag=0;
+                     if(team.teamDetail[i].tournamentId==tournamentId){
+                        team.teamDetail[i].players.push(playerId);
+                        flag=1;
+                        break;
+                    }
+                 }
+             }
+             if(flag==0){
+                console.log("3.........")
+                team.teamDetail.push({tournamentId:tournamentId,players:playerId})
+
+             };
+             team.save()
+             .then(result=>{
+                console.log(result);
+                return response.status(200).json({message:"success"});
+             })
+             .catch(err=>{
+                 console.log(err);
+                 return response.status(500).json(err);
+             })
+            
+                 
+            })
+            .catch(err => {
+                    console.log(err);
+                    return response.status(500).json({ message: "Internal Server Error" })
+                }
+    
+            )
+             
+            
+                
         })
         .catch(err => {
                 console.log(err);
                 return response.status(500).json({ message: "Internal Server Error" })
             }
 
-        )
+        )  
 
 
-    })
-    .catch(err => {
-            console.log(err);
-            return response.status(500).json({ message: "Internal Server Error" })
-        }
 
-    )
 };
-exports.rejectRequest = (request, response, next) => {
+exports.rejectRequest = async(request, response, next) => {
 
-    Player.updateOne({ _id: request.params.playerId }, {
-            $pullAll: {
-                request: [
-                    { _id: request.params.resquestId }
-                ]
-            }
-        })
+    console.log(request.params);
+    await Player.findOneAndUpdate(
+        { _id: request.params.playerId },
+        { $pull: { request: { _id: request.params.resquestId } } },
+        { safe: true, multi: false }
+      )
         .then(result => {
 
-            if (result.modifiedCount)
+             console.log(result)
                 return response.status(202).json({ message: "Success" });
-            else
-                return response.status(404).json({ message: "Not Found" })
+            
+                
         })
         .catch(err => {
                 console.log(err);
@@ -345,7 +381,7 @@ exports.rejectRequest = (request, response, next) => {
 };
 exports.viewAllPlayers = (request, response, next) => {
     console.log(request.body);
-    Player.find().then(result => {
+    Player.find({active:true}).then(result => {
         console.log(result);
         return response.status(201).json(result)
     }).catch(err => {

@@ -21,3 +21,51 @@ exports.createTeam = (request, response, next) => {
         });
 
 }
+exports.viewTeam=(request,response,next)=>{
+    console.log(request.params);
+    Team.findOne({_id:request.params.teamId})
+    .then(result => {
+        console.log(result);
+        if (!result)
+            return response.status(401).json({ message: "Team Not Found" });
+        
+        return response.status(200).json(result);
+
+    })
+    .catch(err => {
+        console.log(err);
+        return response.status(500).json({ message: "Internal Server Error" });
+    })
+
+
+    
+};
+exports.viewTeamList=(request, response, next) => {
+
+    Team.find().then(result => {
+        console.log(result);
+        return response.status(201).json(result)
+    }).catch(err => {
+        console.log(err);
+        return response.status(500).json({ err: err }, { message: "internal server error" })
+    })
+};
+exports.viewTeamByOwnerId=(request,response,next)=>{
+    console.log(request.params);
+    Team.find({ownerId:request.params.ownerId})
+    .then(result => {
+        console.log(result);
+        if (!result)
+            return response.status(401).json({ message: "Team Not Found" });
+        
+        return response.status(200).json(result);
+
+    })
+    .catch(err => {
+        console.log(err);
+        return response.status(500).json({ message: "Internal Server Error" });
+    })
+
+
+    
+};
