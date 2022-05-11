@@ -105,7 +105,7 @@ exports.playerSignup = async(request, response, next) => {
         const player=new Player();
    
     player.name = request.body.name;
-    player.age = 18;
+    player.age = request.body.age;
     player.address = request.body.address;
     player.mobile = request.body.mobile;
     player.email = request.body.email;
@@ -114,6 +114,7 @@ exports.playerSignup = async(request, response, next) => {
     player.image = " ";
     player.description = request.body.description;
     player.active=true;
+    player.initialPrice=50;
     player.save()
         .then(result => {
             console.log(result);
