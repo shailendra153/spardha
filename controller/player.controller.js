@@ -113,6 +113,7 @@ exports.playerSignup = async(request, response, next) => {
     player.playerType = request.body.playerType;
     player.image = " ";
     player.description = " ";
+    player.active=true;
     player.save()
         .then(result => {
             console.log(result);
@@ -127,14 +128,16 @@ exports.playerSignup = async(request, response, next) => {
                 text: message
         
             };
-            transporter.sendMail(mailData, function(err, info) {
-                if (err) {
-                    console.log(err)
-                    return response.status(500).json({ message: "Internal Server Error" });
+            // transporter.sendMail(mailData, function(err, info) {
+            //     if (err) {
+            //         console.log(err)
+            //         return response.status(500).json({ message: "Internal Server Error" });
 
-                } else
-                    return response.status(201).json({ message: "sucesss", result: result })
-            });
+            //     } else
+            //         return response.status(201).json({ message: "sucesss", result: result })
+            // });
+            return response.status(201).json({ message: "sucesss", result: result })
+
 
         })
         .catch(err => {
