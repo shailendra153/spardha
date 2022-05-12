@@ -91,7 +91,7 @@ exports.viewTournamentByOrganiserId=(request,response,next)=>{
 
     
 };
-exports.viewTournamentList=(request,reaponsse,next)=>{
+exports.viewTournamentList=(request,response,next)=>{
     Tournament.find()
     .then(result=>{
         console.log(result);
