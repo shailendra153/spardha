@@ -7,6 +7,7 @@ router.post('/upload-tournament', tournamentController.uploadTournament);
 router.get('view-tournament/:tournamentId', tournamentController.viewTournament);
 router.get('view-tournament-by-organiserId/:organiserId', tournamentController.viewTournamentByOrganiserId);
 router.get('/apply-for-tournament',tournamentController.applyForTournament);
+router.get('/view-tournament',tournamentController.viewTournamentList);
 
 
 

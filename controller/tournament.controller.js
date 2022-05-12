@@ -91,3 +91,16 @@ exports.viewTournamentByOrganiserId=(request,response,next)=>{
 
     
 };
+exports.viewTournamentList=(request,reaponsse,next)=>{
+    Tournament.find()
+    .then(result=>{
+        console.log(result);
+        return response.status(200).json(result);
+
+    }
+ )
+ .catch(err=>{
+     console.log(err);
+     return response.status(500).json({message:"Oops!Something Went Wrong"});
+ })
+}
