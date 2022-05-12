@@ -147,12 +147,7 @@ exports.signinWithGoogle= (request, response, next) => {
                     result: result,
                     token: token
                 });
-            // let password = encrypter.dencrypt(result.password);
-            // if (password == request.body.password)
-            //     return response.status(200).json(result);
-            // else
-            //     return response.status(200).json(result)
-        })
+          })
         .catch(err => {
             console.log(err);
             return response.status(500).json({ message: "Internal Server Error" });
@@ -168,7 +163,7 @@ exports.updateProfile = (request, response, next) => {
     }
     const name = request.body.name;
     const email = request.body.email;
-    // const password = encrypter.encrypt(request.body.password);
+  
     const mobile = request.body.mobile;
     const alternateNumber = request.body.alternateNumber;
     Organiser.updateOne({ _id: request.body.organiserId },{
@@ -196,7 +191,7 @@ exports.updateProfile = (request, response, next) => {
 
 exports.viewProfile = (request, response, next) => {
     console.log(request.body)
-    Organiser.findOne({ _id: request.params.organiserId})
+    Organiser.findOne({ _id: request.params.organiserId}).populate('tournament')
         .then(result => {
             console.log(result);
             if (!result)
@@ -214,15 +209,7 @@ exports.uploadTournament = (request, response, next) => {
           console.log(request.body);
           tournament.create(
             request.body
-            // {
-            //     organiserId:request.body.organiserId,
-            //     tournamentName:request.body.tournamentName,
-            //     tournamentTeamLimit:request.body.tournamentTeamLimit,
-            //     tournamentAddress:request.body.tournamentAddress,
-            //     tournamentStartDate:request.body.tournamentStartDate,
-            //     tournamentEndDate:request.body.tournamentEndDate,
-            //     tournamentFees:request.body.tournamentFees+" RS",
-            //   }
+  
           ).then(result=>{
               console.log(result);
               return response.status(201).json(result)
@@ -237,15 +224,7 @@ exports.uploadTournament = (request, response, next) => {
     console.log(request.body);
     tournament.create(
       request.body
-      // {
-      //     organiserId:request.body.organiserId,
-      //     tournamentName:request.body.tournamentName,
-      //     tournamentTeamLimit:request.body.tournamentTeamLimit,
-      //     tournamentAddress:request.body.tournamentAddress,
-      //     tournamentStartDate:request.body.tournamentStartDate,
-      //     tournamentEndDate:request.body.tournamentEndDate,
-      //     tournamentFees:request.body.tournamentFees+" RS",
-      //   }
+  
     ).then(result=>{
         console.log(result);
         return response.status(201).json(result)

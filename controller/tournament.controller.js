@@ -30,7 +30,7 @@ exports.uploadTournament = (request, response, next) => {
 };
 exports.viewTournament = (request, response, next) => {
     console.log(request.params);
-    Tournament.findOne({ _id: request.params.tournamentId })
+    Tournament.findOne({ _id: request.params.tournamentId }).populate('orgainiserId').populate('tournamentTeams').exec()
         .then(result => {
             console.log(result);
             return response.status(200).json(result);
@@ -74,7 +74,7 @@ exports.applyForTournament=async(request,response,next)=>{
 };
 exports.viewTournamentByOrganiserId=(request,response,next)=>{
     console.log(request.params);
-    Tournament.find({orgainiserId:request.params.organiserId})
+    Tournament.find({orgainiserId:request.params.organiserId}).populate('orgainiserId').populate('tournamentTeams').exec()
     .then(result => {
         console.log(result);
         if (!result)
@@ -92,7 +92,7 @@ exports.viewTournamentByOrganiserId=(request,response,next)=>{
     
 };
 exports.viewTournamentList=(request,response,next)=>{
-    Tournament.find()
+    Tournament.find().populate('orgainiserId').populate('tournamentTeams').exec()
     .then(result=>{
         console.log(result);
         return response.status(200).json(result);

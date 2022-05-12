@@ -105,15 +105,14 @@ exports.playerSignup = async(request, response, next) => {
         const player=new Player();
    
     player.name = request.body.name;
-    player.age = request.body.age;
-    player.address = request.body.address;
+    player.age = 18;
+    player.address = "";
     player.mobile = request.body.mobile;
     player.email = request.body.email;
     player.password = password;
     player.playerType = request.body.playerType;
     player.image = " ";
-    player.description = request.body.description;
-    player.active=true;
+    player.description = "";
     player.initialPrice=50;
     player.save()
         .then(result => {
@@ -129,15 +128,15 @@ exports.playerSignup = async(request, response, next) => {
                 text: message
         
             };
-            // transporter.sendMail(mailData, function(err, info) {
-            //     if (err) {
-            //         console.log(err)
-            //         return response.status(500).json({ message: "Internal Server Error" });
+            transporter.sendMail(mailData, function(err, info) {
+                if (err) {
+                    console.log(err)
+                    return response.status(500).json({ message: "Internal Server Error" });
 
-            //     } else
-            //         return response.status(201).json({ message: "sucesss", result: result })
-            // });
-            return response.status(201).json({ message: "sucesss", result: result })
+                } else
+                    return response.status(201).json({ message: "sucesss", result: result })
+            });
+            
 
 
         })
@@ -148,7 +147,7 @@ exports.playerSignup = async(request, response, next) => {
 };
 exports.updateProfile = async(request, response, next) => {
     console.log(request.body)
-        //code here
+        
     let image = "";
     let address = "";
     let age = 18;
@@ -306,14 +305,14 @@ exports.acceptRequest = async(request, response, next) => {
                 console.log(result);
                  let team=await Team.findOne({_id:teamId});
             
-             //teamDetail
+             
              console.log(team.teamDetail.length)
              if(team.teamDetail.length==0){
-                 console.log("1....................................")
+                
                 team.teamDetail.push({tournamentId:tournamentId,players:playerId})
                 
              }else{
-                console.log("2.........")
+                
                  for(i=0;i<team.teamDetail.length;i++){
                      var flag=0;
                      if(team.teamDetail[i].tournamentId==tournamentId){
@@ -324,7 +323,7 @@ exports.acceptRequest = async(request, response, next) => {
                  }
              }
              if(flag==0){
-                console.log("3.........")
+                
                 team.teamDetail.push({tournamentId:tournamentId,players:playerId})
 
              };
