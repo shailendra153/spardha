@@ -105,7 +105,7 @@ exports.organiserSignin = (request, response, next) => {
             return response.status(200).json({message:"please verify your account"});
     
             if (!result)
-                return response.status(401).json({ message: "User Not Found" });
+                return response.status(200).json({ message: "User Not Found" });
             let password = encrypter.dencrypt(result.password);
             if (password == request.body.password){
                 console.log(result);
