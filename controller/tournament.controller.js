@@ -14,7 +14,7 @@ exports.uploadTournament = (request, response, next) => {
     tournament.tournamentFees = request.body.tournamentFees;
     tournament.tournamentRules = request.body.tournamentRules;
     tournament.prizeAmount = request.body.prizeAmount;
-    tournament.orgainiserId = request.body.orgainiserId;
+    tournament.orgainiserId = request.body.organiserId;
     tournament.save()
         .then(result => {
             console.log(result)
