@@ -204,33 +204,14 @@ exports.viewProfile = (request, response, next) => {
             return response.status(500).json({ message: "Internal Server Error" });
         })
 };
-
-exports.uploadTournament = (request, response, next) => {
-          console.log(request.body);
-          tournament.create(
-            request.body
-  
-          ).then(result=>{
-              console.log(result);
-              return response.status(201).json(result)
-          }).catch(err=>{
-              console.log(err);
-              return response.status(500).json({err:err},{message:"internal server error"})
-          })
-        
-};
-
-exports.uploadTournament = (request, response, next) => {
-    console.log(request.body);
-    tournament.create(
-      request.body
-  
-    ).then(result=>{
+exports.viewOrganiserList=(request,response,next)=>{
+    Organiser.find({active:true})
+    .then(result => {
         console.log(result);
-        return response.status(201).json(result)
-    }).catch(err=>{
-        console.log(err);
-        return response.status(500).json({err:err},{message:"internal server error"})
+        return response.status(200).json(result);
     })
-  
-};
+    .catch(err => {
+        console.log(err);
+        return response.status(500).json({ message: "Internal Server Error" });
+    })
+}
