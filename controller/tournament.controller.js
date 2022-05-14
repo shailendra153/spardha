@@ -39,7 +39,10 @@ exports.uploadTournament =async (request, response, next) => {
     tournament.tournamentEndDate = request.body.tournamentEndDate;
     tournament.tournamentFees = request.body.tournamentFees;
     tournament.tournamentRules = request.body.tournamentRules;
-    tournament.prizeAmount = request.body.prizeAmount;
+    tournament.firstPrize = request.body.firstPrize;
+    tournament.secondPrize = request.body.secondPrize;
+    tournament.thirdPrize = request.body.thirdPrize;
+
     tournament.orgainiserId = request.body.organiserId;
     tournament.banner=image;
     tournament.save()

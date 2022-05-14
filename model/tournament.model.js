@@ -38,10 +38,18 @@
          type: Number,
          required: true
      },
-     prizeAmount: {
+     firstPrize: {
          type: Number,
          required: true
      },
+     secondPrize: {
+        type: Number,
+        required: true
+    },
+    thirdPrize: {
+        type: Number,
+        required: true
+    },
      tournamentRules: {
          type: String
 
