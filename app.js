@@ -7,7 +7,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
-
 const adminRouter = require('./router/admin.router');
 const playerRouter = require("./router/player.router");
 const teamRouter = require('./router/team.router');
