@@ -2,8 +2,34 @@ const { response } = require('express');
 const { request } = require('express');
 const req = require('express/lib/request');
 const Tournament = require('../model/tournament.model');
-exports.uploadTournament = (request, response, next) => {
+const cloudinary = require('cloudinary');
+const { validationResult } = require('express-validator');
+
+cloudinary.config({
+    cloud_name: "shailendra153",
+    api_key: "934837375542371",
+    api_secret: "zHeIVGAQP0FDhsmIV-a38EYA24w"
+});
+
+exports.uploadTournament =async (request, response, next) => {
     console.log(request.body);
+    let image = "";
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+        console.log(errors)
+        return response.status(400).json({ errors: errors.array() });
+    }
+    if (request.file) {
+
+        await cloudinary.v2.uploader.upload(request.file.path)
+            .then(result => {
+                image = result.url;
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }    
+
     const tournament = new Tournament();
     tournament.tournamentName = request.body.tournamentName;
     tournament.tournamentTeamLimit = request.body.tournamentTeamLimit;
@@ -15,6 +41,7 @@ exports.uploadTournament = (request, response, next) => {
     tournament.tournamentRules = request.body.tournamentRules;
     tournament.prizeAmount = request.body.prizeAmount;
     tournament.orgainiserId = request.body.organiserId;
+    tournament.banner=image;
     tournament.save()
         .then(result => {
             console.log(result)

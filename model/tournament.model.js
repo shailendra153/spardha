@@ -6,6 +6,10 @@
          type: Schema.Types.ObjectId,
          ref: 'orgainisers'
      },
+     banner:{
+         type:String,
+         required:true
+     },
      tournamentName: {
          type: String,
          required: true
