@@ -4,6 +4,7 @@ const req = require('express/lib/request');
 const Tournament = require('../model/tournament.model');
 const cloudinary = require('cloudinary');
 const { validationResult } = require('express-validator');
+const Team =require('../model/team.model');
 
 cloudinary.config({
     cloud_name: "shailendra153",

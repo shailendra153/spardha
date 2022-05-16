@@ -52,7 +52,7 @@ exports.viewTeamList=(request, response, next) => {
 };
 exports.viewTeamByOwnerId=(request,response,next)=>{
     console.log(request.params);
-    Team.find({ownerId:request.params.ownerId})
+    Team.find({ownerId:request.params.ownerId}).populate("ownerId").populate('tournaments').exec()
     .then(result => {
         console.log(result);
         if (!result)
