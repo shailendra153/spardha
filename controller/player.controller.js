@@ -64,7 +64,7 @@ exports.playerSignin = (request, response, next) => {
         .then(result => {
             console.log(result);
             if (!result)
-                return response.status(401).json({ message: "User Not Found" });
+                return response.status(201).json({ message: "User Not Found" });
 
            
                  let password = encrypter.dencrypt(result.password);
@@ -83,7 +83,7 @@ exports.playerSignin = (request, response, next) => {
                     token: token
                 });
             } else
-                return response.status(401).json({ message: "Wrong Password" })
+                return response.status(201).json({ message: "Invalid credential" });
 
 
 
