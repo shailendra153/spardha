@@ -209,7 +209,7 @@ exports.updateProfile = async(request, response, next) => {
 };
 exports.viewProfile = (request, response, next) => {
     console.log(request.body)
-    Player.findOne({ _id: request.params.playerId }).populate('request.tournamentId').populate('request.teamId').exec()
+    Player.findOne({ _id: request.params.playerId }).populate('request.tournamentId').populate('request.teamId').populate('team.tournamentId').populate("team.teamId").exec()
         .then(result => {
             console.log(result);
             if (!result)
