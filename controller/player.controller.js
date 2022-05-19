@@ -106,13 +106,13 @@ exports.playerSignup = async(request, response, next) => {
    
     player.name = request.body.name;
     player.age = 18;
-    player.address = "";
+    player.address = " ";
     player.mobile = request.body.mobile;
     player.email = request.body.email;
     player.password = password;
     player.playerType = request.body.playerType;
     player.image = " ";
-    player.description = "";
+    player.description = " ";
     player.initialPrice=50;
     player.save()
         .then(result => {
