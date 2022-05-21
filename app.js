@@ -15,7 +15,7 @@ const tournamentRouter = require('./router/tournament.router');
 const paymentRouter=require('./router/payment.router');
 const contactRouter=require('./router/contact.router');
 const mongoose = require('mongoose');
-mongoose.connect("mongodb+srv://root:root@cluster0.gffjq.mongodb.net/Spardha?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://root:root@cluster0.gffjq.mongodb.net/FINALSPARDHA?retryWrites=true&w=majority")
     .then(() => {
         app.use('/admin', adminRouter);
         app.use('/team', teamRouter);
