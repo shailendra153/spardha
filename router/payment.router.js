@@ -1,7 +1,7 @@
 const express =require('express');
 const router=express.Router()
 const Razorpay = require("razorpay")
-var instance = new Razorpay({ key_id: 'rzp_test_wa8BQr1beIyzBu', key_secret: 'ZEepS52aSqEyQx3nGet31U3S' })
+var instance = new Razorpay({ key_id: "rzp_test_k45BWvh7O4E1Os", key_secret: 'slUd8Wf94kHnzcutqC7TVNSA' })
 
 router.post('/get-payment', (req, res) => {
     console.log(req.body)
@@ -19,3 +19,9 @@ router.post('/get-payment', (req, res) => {
 
 
 module.exports = router;
+
+
+
+
+
+

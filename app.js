@@ -13,6 +13,7 @@ const teamRouter = require('./router/team.router');
 const organiserRouter = require('./router/organiser.router');
 const tournamentRouter = require('./router/tournament.router');
 const paymentRouter=require('./router/payment.router');
+const contactRouter=require('./router/contact.router');
 const mongoose = require('mongoose');
 mongoose.connect("mongodb+srv://root:root@cluster0.gffjq.mongodb.net/Spardha?retryWrites=true&w=majority")
     .then(() => {
@@ -21,6 +22,7 @@ mongoose.connect("mongodb+srv://root:root@cluster0.gffjq.mongodb.net/Spardha?ret
         app.use('/payment',paymentRouter);
         app.use('/organiser', organiserRouter);
         app.use('/tournament', tournamentRouter);
+        app.use('/contact',contactRouter);
         app.use(playerRouter);
         app.listen(process.env.PORT || 3000, () => {
             console.log("Server Is Running")

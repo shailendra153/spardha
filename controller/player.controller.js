@@ -146,9 +146,10 @@ exports.playerSignup = async(request, response, next) => {
         })
 };
 exports.updateProfile = async(request, response, next) => {
+    console.log("coming")
     console.log(request.body)
         
-    let image = "";
+    let image = request.body.oldImage;
     let address = "";
     let age = 18;
     let description = "";
@@ -196,9 +197,9 @@ exports.updateProfile = async(request, response, next) => {
         .then(result => {
 
             if (result.modifiedCount)
-                return response.status(202).json({ message: "Success" });
+                return response.status(200).json({ message: "Success" });
             else
-                return response.status(404).json({ message: "Not Found" })
+                return response.status(200).json({ message: "Not Found" })
         })
         .catch(err => {
                 console.log(err);
