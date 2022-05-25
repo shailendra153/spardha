@@ -15,6 +15,13 @@ cloudinary.config({
 const tournament = require('../model/tournament.model');
 const { response } = require('express');
 
+exports.mailSender=(request,response,next)=>{
+//code here
+};
+exports.ForgotPassword=(request,response,next)=>{
+    //code here
+};
+
 exports.verifyAccount=(request,response,next)=>{
     console.log(request.params);
     

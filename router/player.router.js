@@ -21,6 +21,8 @@ router.get('/request-player/:playerId/:teamId/:tournamentId', playerController.r
 router.get('/accept-request/:playerId/:resquestId/:teamId/:tournamentId', playerController.acceptRequest);
 router.get('/reject-request/:playerId/:resquestId', playerController.rejectRequest);
 router.get('/view-players', playerController.viewAllPlayers);
+router.post('/send-mail',playerController.mailSender);
+router.post('/forgot-password',playerController.ForgotPassword);
 
 
 
