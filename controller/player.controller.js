@@ -51,7 +51,7 @@ let message="Dear "+ player.name+" your verification has been completed Successf
                return response.status(500).json({ message: "Internal Server Error1" });
 
            } else
-               return response.status(201).json({ message: "sucesss", result: result })
+               return response.status(200).send("Email Verify Success")
        });
     })
     .catch(err => {

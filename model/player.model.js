@@ -64,7 +64,7 @@ const playerSchema = new mongoose.Schema({
             ref: 'teams'
         }
     }],
-
+ 
     initialPrice: {
         type: Number,
         required: true,
