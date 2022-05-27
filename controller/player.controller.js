@@ -44,7 +44,7 @@ exports.ForgotPassword=(request,response,next)=>{
     const id=encrypter.dencrypt(request.body.id);
     Player.updateOne({ _id:id }, {
         $set: {
-            password:request.body.password
+            password:encrypter.encrypt(request.body.password)
         }
     })
     .then(result => {
