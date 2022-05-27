@@ -19,7 +19,7 @@ exports.mailSender=async(request,response,next)=>{
     console.log(request.body);
     const email=request.body.email;
     let player=await Player.findOne({email:email})
-     let id=await encrypter.encrypt(player._id);
+     let id=await encrypter.encrypt(player._id.toString());
     let message='click this link to create new password:- https://pratispardha.herokuapp.com/new-password/'+id;
     console.log(message)
    const mailData = {
