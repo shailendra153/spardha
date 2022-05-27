@@ -16,7 +16,23 @@ const tournament = require('../model/tournament.model');
 const { response } = require('express');
 
 exports.mailSender=(request,response,next)=>{
-//code here
+    const email=request.body
+    let message='';
+    console.log(message)
+   const mailData = {
+       from: 'pratispardha.22@gmail.com',
+       to: email,
+       subject: "Forgot Password",
+       text: message
+     };
+     transporter.sendMail(mailData, function(err, info) {
+        if (err) {
+            console.log(err)
+            return response.status(500).json({ message: "Internal Server Error" });
+
+        } else
+            return response.status(200).json({message:"success"});
+    });
 };
 exports.ForgotPassword=(request,response,next)=>{
     //code here
@@ -39,7 +55,7 @@ exports.verifyAccount=(request,response,next)=>{
 let message="Dear "+ player.name+" your verification has been completed Successfully.your Email is  "+player.email+" and your password is "+encrypter.dencrypt(player.password)+". Now you can procceed ahead byu clicking this link:-http://localhost:4200"
         console.log(message)
        const mailData = {
-           from: 'kushwahshailendra732@gmail.com',
+           from: 'pratispardha.22@gmail.com',
            to: player.email,
            subject: "Verification Success",
            text: message
@@ -129,7 +145,7 @@ exports.playerSignup = async(request, response, next) => {
             message="click this link for verify your account:-"+"https://spardhaa.herokuapp.com/verify/"+encrypter.encrypt(id);
              console.log(message)
             const mailData = {
-                from: 'kushwahshailendra732@gmail.com',
+                from: 'pratispardha.22@gmail.com',
                 to: request.body.email,
                 subject: "Sign Up Success",
                 text: message
