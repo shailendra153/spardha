@@ -17,7 +17,7 @@ const { response } = require('express');
 
 exports.mailSender=async(request,response,next)=>{
     console.log(request.body);
-    const email=request.body
+    const email=request.body.email;
     let player=await Player.findOne({email:email})
      let id=await encrypter.encrypt(player._id);
     let message='click this link to create new password:- https://pratispardha.herokuapp.com/new-password/'+id;
