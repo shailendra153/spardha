@@ -15,9 +15,12 @@ cloudinary.config({
 const tournament = require('../model/tournament.model');
 const { response } = require('express');
 
-exports.mailSender=(request,response,next)=>{
+exports.mailSender=async(request,response,next)=>{
+    console.log(request.body);
     const email=request.body
-    let message='';
+    let player=await Player.findOne({email:email})
+    let id=encrypter.encrypt(player._id);
+    let message='click this link to create new password:- https://pratispardha.herokuapp.com/new-password/'+id;
     console.log(message)
    const mailData = {
        from: 'pratispardha.22@gmail.com',
@@ -35,7 +38,27 @@ exports.mailSender=(request,response,next)=>{
     });
 };
 exports.ForgotPassword=(request,response,next)=>{
-    //code here
+    console.log(request.body);
+    const id=encrypter.dencrypt(request.body.id);
+    Player.updateOne({ _id:id }, {
+        $set: {
+            password:request.body.password
+        }
+    })
+    .then(result => {
+
+        if (result.modifiedCount)
+            return response.status(200).json({ message: "Success" });
+        else
+            return response.status(200).json({ message: "Not Found" })
+    })
+    .catch(err => {
+            console.log(err);
+            return response.status(500).json({ message: "Internal Server Error" })
+        }
+
+    )
+    
 };
 
 exports.verifyAccount=(request,response,next)=>{
