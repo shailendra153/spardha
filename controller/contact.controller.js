@@ -1,4 +1,4 @@
-const Contact=require('../model/contact.model');
+ const Contact=require('../model/contact.model');
 const { validationResult } = require('express-validator');
 
 exports.saveQuery=(request,response,next)=>{

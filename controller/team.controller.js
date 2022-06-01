@@ -27,7 +27,7 @@ exports.viewTeam=(request,response,next)=>{
     .then(result => {
         console.log(result);
         if (!result)
-            return response.status(401).json({ message: "Team Not Found" });
+            return response.status(200).json({ message: "Team Not Found" });
         
         return response.status(200).json(result);
 
@@ -56,7 +56,7 @@ exports.viewTeamByOwnerId=(request,response,next)=>{
     .then(result => {
         console.log(result);
         if (!result)
-            return response.status(401).json({ message: "Team Not Found" });
+            return response.status(200).json({ message: "Team Not Found" });
         
         return response.status(200).json(result);
 

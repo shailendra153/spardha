@@ -120,7 +120,7 @@ exports.organiserSignin = (request, response, next) => {
             }
                 
             else
-                return response.status(401).json({ message: "Wrong Password" })
+                return response.status(200).json({ message: "Wrong Password" })
 
         })
         .catch(err => {
@@ -136,7 +136,7 @@ exports.signinWithGoogle= (request, response, next) => {
         .then(result => {
             console.log(result);
             if (!result)
-                return response.status(401).json({ message: "User Not Found" });
+                return response.status(200).json({ message: "User Not Found" });
                 console.log(result);
                 console.log('login Successful');
                 let payload = { subject: result._id };
@@ -195,7 +195,7 @@ exports.viewProfile = (request, response, next) => {
         .then(result => {
             console.log(result);
             if (!result)
-                return response.status(401).json({ message: "User Not Found" });
+                return response.status(200).json({ message: "User Not Found" });
             result.password = encrypter.dencrypt(result.password);
             return response.status(200).json(result);
         })

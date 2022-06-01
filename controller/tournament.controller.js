@@ -109,7 +109,7 @@ exports.viewTournamentByOrganiserId=(request,response,next)=>{
     .then(result => {
         console.log(result);
         if (!result)
-            return response.status(401).json({ message: "Tornaments Not Found" });
+            return response.status(200).json({ message: "Tornaments Not Found" });
         
         return response.status(200).json(result);
 

@@ -144,13 +144,16 @@ exports.playerSignin = (request, response, next) => {
 exports.playerSignup = async(request, response, next) => {
 
     console.log(request.body);
+    let player= await Player.findOne({email:request.body.email});
+    if(player)
+       return response.status(200).json({message:"user already found"});
     const password = encrypter.encrypt(request.body.password);
 
     let message = ""
     const errors = validationResult(request);
     if (!errors.isEmpty())
         return response.status(400).json({ errors: errors.array() });
-        const player=new Player();
+         player=new Player();
    
     player.name = request.body.name;
     player.age = 18;
@@ -262,7 +265,7 @@ exports.viewProfile = (request, response, next) => {
         .then(result => {
             console.log(result);
             if (!result)
-                return response.status(401).json({ message: "User Not Found" });
+                return response.status(200).json({ message: "User Not Found" });
             result.password = encrypter.dencrypt(result.password);
             return response.status(200).json(result);
 
@@ -280,7 +283,7 @@ exports.signinWithGoogle = (request, response, next) => {
         .then(result => {
             console.log(result);
             if (!result)
-                return response.status(401).json({ message: "User Not Found" });
+                return response.status(200).json({ message: "User Not Found" });
             console.log(result);
             console.log('login Successful');
             let payload = { subject: result._id };
