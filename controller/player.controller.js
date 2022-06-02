@@ -19,8 +19,10 @@ exports.mailSender=async(request,response,next)=>{
     console.log(request.body);
     const email=request.body.email;
     let player=await Player.findOne({email:email})
-    if(!player)
+    if(!player){
     return response.status(200).json({message:"User Not Found"})
+ }  
+ else {
      let id=await encrypter.encrypt(player._id.toString());
     let message='click this link to create new password:- https://pratispardha.herokuapp.com/new-password/'+id;
     console.log(message)
@@ -37,7 +39,7 @@ exports.mailSender=async(request,response,next)=>{
 
         } else
             return response.status(200).json({message:"success"});
-    });
+    });}
 };
 exports.ForgotPassword=(request,response,next)=>{
     console.log(request.body);
