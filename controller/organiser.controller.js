@@ -11,6 +11,58 @@ const transporter = require('../mail/mail');
 const Organiser = require('../model/organiser.model');
 const res = require('express/lib/response');
 
+
+exports.mailSender=async(request,response,next)=>{
+    console.log(request.body);
+    const email=request.body.email;
+    let organiser=await Organiser.findOne({email:email})
+    if(!organiser){
+    return response.status(200).json({message:"User Not Found"})
+ }  
+ else {
+     let id=await encrypter.encrypt(organiser._id.toString());
+    let message='click this link to create new password:- http://localhost:4200/new-password/'+id;
+    console.log(message)
+   const mailData = {
+       from: 'pratispardha.22@gmail.com',
+       to: email,
+       subject: "Forgot Password",
+       text: message
+     };
+     transporter.sendMail(mailData, function(err, info) {
+        if (err) {
+            console.log(err)
+            return response.status(500).json({ message: "Internal Server Error" });
+
+        } else
+            return response.status(200).json({message:"success"});
+    });}
+};
+exports.ForgotPassword=(request,response,next)=>{
+    console.log(request.body);
+    const id=encrypter.dencrypt(request.body.id);
+    Organiser.updateOne({ _id:id }, {
+        $set: {
+            password:encrypter.encrypt(request.body.password)
+        }
+    })
+    .then(result => {
+
+        if (result.modifiedCount)
+            return response.status(200).json({ message: "Success" });
+        else
+            return response.status(200).json({ message: "Not Found" })
+    })
+    .catch(err => {
+            console.log(err);
+            return response.status(500).json({ message: "Internal Server Error" })
+        }
+
+    )
+    
+};
+
+
 exports.verifyAccount=(request,response,next)=>{
     console.log(request.params);
     

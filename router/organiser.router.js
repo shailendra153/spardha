@@ -10,6 +10,8 @@ router.get('/verify/:organiserId',organiserController.verifyAccount);
 router.post('/signin-with-google', organiserController.signinWithGoogle);
 router.post('/update-profile', organiserController.updateProfile);
 router.get('/view-profile/:organiserId', organiserController.viewProfile);
-router.get('/view-organiser-list',organiserController.viewOrganiserList)
+router.get('/view-organiser-list',organiserController.viewOrganiserList);
+router.post('/send-mail',organiserController.mailSender);
+router.post('/forgot-password',organiserController.ForgotPassword);
 
 module.exports = router;
