@@ -106,14 +106,18 @@ let message="Dear "+ organiser.name+" your verification has been completed Succe
 }
 
 
-exports.organiserSignup = (request, response, next) => {
+exports.organiserSignup = async(request, response, next) => {
     console.log(request.body);
     const errors = validationResult(request);
+    let organiser=await Organiser.findOne({email:request.body.email});
+    if(organiser)
+    return response.status(200).json({message:"user already found"});
+
 
     if (!errors.isEmpty())
     return response.status(400).json({ errors: errors.array() });
        
-    const organiser = new Organiser();
+     organiser = new Organiser();
     organiser.name = request.body.name;
     organiser.email = request.body.email;
     organiser.password = encrypter.encrypt(request.body.password);
@@ -172,7 +176,7 @@ exports.organiserSignin = (request, response, next) => {
             }
                 
             else
-                return response.status(200).json({ message: "Wrong Password" })
+                return response.status(200).json({ message: "Invalid credential" })
 
         })
         .catch(err => {
