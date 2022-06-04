@@ -195,6 +195,9 @@ exports.signinWithGoogle= (request, response, next) => {
             if (!result)
                 return response.status(200).json({ message: "User Not Found" });
                 console.log(result);
+                if(result.active==false)
+                return response.status(200).json({message:"please verify your account"});
+       
                 console.log('login Successful');
                 let payload = { subject: result._id };
                 let token = jwt.sign(payload, 'adkgshubhambahutsamjhhdarhkabhigaltinhikrteckjbgjkab');
