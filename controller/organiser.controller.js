@@ -157,11 +157,12 @@ exports.organiserSignin = (request, response, next) => {
     Organiser.findOne({ email: request.body.email })
         .then(result => {
             console.log(result);
-            if(result.active==false)
-            return response.status(200).json({message:"please verify your account"});
     
             if (!result)
                 return response.status(200).json({ message: "User Not Found" });
+            if(result.active==false)
+            return response.status(200).json({message:"please verify your account"});
+   
             let password = encrypter.dencrypt(result.password);
             if (password == request.body.password){
                 console.log(result);
