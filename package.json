@@ -1,7 +1,6 @@
 {
   "name": "pratisparda",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,5 +22,15 @@
     "multer": "^1.4.4",
     "nodemailer": "^6.7.5",
     "razorpay": "^2.8.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shailendra153/spardha.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shailendra153/spardha/issues"
+  },
+  "homepage": "https://github.com/shailendra153/spardha#readme",
+  "description": ""
 }

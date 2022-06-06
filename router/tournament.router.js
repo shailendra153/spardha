@@ -15,9 +15,9 @@ const router = express.Router();
 
 router.post('/upload-tournament', upload.single('banner'), tournamentController.uploadTournament);
 router.get('/view-tournament/:tournamentId', tournamentController.viewTournament);
-router.get('view-tournament-by-organiserId/:organiserId', tournamentController.viewTournamentByOrganiserId);
-router.post('/apply-for-tournament',tournamentController.applyForTournament);
-router.get('/view-tournament',tournamentController.viewTournamentList);
+router.get('/view-tournament-by-organiserId/:organiserId', tournamentController.viewTournamentByOrganiserId);
+router.post('/apply-for-tournament', tournamentController.applyForTournament);
+router.get('/view-tournament', tournamentController.viewTournamentList);
 
 
 
