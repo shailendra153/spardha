@@ -61,7 +61,7 @@ exports.uploadTournament =async (request, response, next) => {
 };
 exports.viewTournament = (request, response, next) => {
     console.log(request.params);
-    Tournament.findOne({ _id: request.params.tournamentId }).populate('orgainiserId').populate('tournamentTeams').exec()
+    Tournament.findOne({ _id: request.params.tournamentId }).populate('orgainiserId').populate({path:'tournamentTeams',populate:{path:"ownerId"}}).exec()
         .then(result => {
             console.log(result);
             return response.status(200).json(result);
